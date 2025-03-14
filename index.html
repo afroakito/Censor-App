@@ -3,12 +3,20 @@
 <head>
     <meta charset="UTF-8">
     <title>リアルタイム伏字アプリ</title>
+    <style>
+        #originalText {
+            font-size: 12px; /* 小さく表示 */
+            color: #666; /* 見やすいグレー（必要なら変更可能） */
+            margin-bottom: 5px;
+        }
+    </style>
 </head>
 <body>
     <h1>リアルタイム伏字アプリ</h1>
     <textarea id="inputText" rows="5" cols="50" placeholder="ここに文字を入力"></textarea>
     <p>変換結果:</p>
     <div id="outputText" style="font-size: 20px;"></div>
+    <div id="originalText"></div> <!-- 元のテキスト表示用 -->
     <button id="shareButton">Xに埋め込む</button>
     <script src="script.js"></script>
 </body>
