@@ -10,40 +10,38 @@ let originalText = '';
 // 初期表示
 originalTextDisplay.textContent = '（入力なし）';
 
-// 入力時にリアルタイムで伏字に変換
+// 入力時にリアルタイムで伏字に変換（IME変換中はスキップ）
 inputText.addEventListener('input', function(event) {
-    // IME変換中は処理をスキップ
-    if (event.isComposing) return;
+    if (event.isComposing) return; // IME変換中は処理しない
 
-    originalText = event.target.value; // 元の文字列を更新
+    originalText = event.target.value;
 
-    // 入力欄: 最後の1文字以外を●に
     if (originalText.length > 1) {
         const censoredInput = '●'.repeat(originalText.length - 1) + originalText.slice(-1);
         inputText.value = censoredInput;
     }
 
-    // 変換結果: 全文字を●に
     outputText.textContent = '●'.repeat(originalText.length);
-
-    // 元のテキストを表示（伏字ではない）
     originalTextDisplay.textContent = originalText || '（入力なし）';
 });
 
 // IME確定後に元の文字列を補正
 inputText.addEventListener('compositionend', function(event) {
-    originalText = event.target.value; // 確定後の文字列を更新
+    originalText = event.target.value; // 確定後の完全な文字列を取得
 
-    // 入力欄: 最後の1文字以外を●に
+    // ●が混ざっている場合を考慮し、必要ならクリア
+    if (originalText.includes('●')) {
+        originalText = originalText.replace(/●/g, '');
+    }
+
     if (originalText.length > 1) {
         const censoredInput = '●'.repeat(originalText.length - 1) + originalText.slice(-1);
         inputText.value = censoredInput;
+    } else {
+        inputText.value = originalText; // 1文字の場合はそのまま
     }
 
-    // 変換結果: 全文字を●に
     outputText.textContent = '●'.repeat(originalText.length);
-
-    // 元のテキストを表示（伏字ではない）
     originalTextDisplay.textContent = originalText || '（入力なし）';
 });
 
@@ -51,11 +49,8 @@ inputText.addEventListener('compositionend', function(event) {
 shareButton.addEventListener('click', function() {
     navigator.clipboard.writeText(originalText)
         .then(() => {
-            // アラートを削除し、直接遷移処理へ
-            const xAppUrl = 'twitter://post'; // スマホ用
-            const xWebUrl = 'https://x.com/compose/post'; // PCおよびフォールバック用
-
-            // 簡易的なデバイス判別（PCなら直接ウェブ版）
+            const xAppUrl = 'twitter://post';
+            const xWebUrl = 'https://x.com/compose/post';
             const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
             if (isMobile) {
                 const opened = window.open(xAppUrl, '_blank');
@@ -65,10 +60,10 @@ shareButton.addEventListener('click', function() {
                     }
                 }, 500);
             } else {
-                window.open(xWebUrl, '_blank'); // PCでは直接ウェブ版
+                window.open(xWebUrl, '_blank');
             }
         })
         .catch(err => {
-            console.error('コピーに失敗しました: ', err); // アラートをconsole.logに変更
+            console.error('コピーに失敗しました: ', err);
         });
 });
