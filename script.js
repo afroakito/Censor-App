@@ -51,7 +51,7 @@ inputText.addEventListener('compositionend', function(event) {
 shareButton.addEventListener('click', function() {
     navigator.clipboard.writeText(originalText)
         .then(() => {
-            alert('元の文字列をコピーしました。Xの投稿欄にペーストしてください。');
+            // アラートを削除し、直接遷移処理へ
             const xAppUrl = 'twitter://post'; // スマホ用
             const xWebUrl = 'https://x.com/compose/post'; // PCおよびフォールバック用
 
@@ -69,6 +69,6 @@ shareButton.addEventListener('click', function() {
             }
         })
         .catch(err => {
-            alert('コピーに失敗しました: ' + err);
+            console.error('コピーに失敗しました: ', err); // アラートをconsole.logに変更
         });
 });
