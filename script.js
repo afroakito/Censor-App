@@ -15,7 +15,6 @@ shareButton.addEventListener('click', function() {
     const originalText = inputText.value;
     navigator.clipboard.writeText(originalText)
         .then(() => {
-            alert('元の文字列をコピーしました。Xアプリの投稿欄にペーストしてください。');
             const xAppUrl = 'twitter://post'; // Xアプリの投稿画面（旧Twitterスキーム）
             const xWebUrl = 'https://x.com/compose/post'; // フォールバック用ウェブ版
             const opened = window.open(xAppUrl, '_blank');
