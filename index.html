@@ -20,11 +20,15 @@
     <button id="shareButton">Xに埋め込む</button>
     <script src="script.js"></script>
     <script>
-        // ページロード時にtextareaにフォーカス
+        // ページロード時にtextareaにフォーカス＆キーボード表示
         window.onload = function() {
             const inputText = document.getElementById('inputText');
             inputText.focus();
-            inputText.click(); // スマホでキーボード表示を促す
+            // キーボード表示を促すためにinputイベントをディスパッチ
+            const event = new Event('input', { bubbles: true });
+            inputText.dispatchEvent(event);
+            // さらにクリックイベントを追加
+            inputText.click();
         };
     </script>
 </body>
