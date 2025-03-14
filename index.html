@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <title>リアルタイム伏字アプリ</title>
+    <style>
+        #originalText {
+            font-size: 14px; /* 少し大きく */
+            color: #666666; /* #e2e2e2から濃いグレーに変更（デバッグ用） */
+            margin-bottom: 10px;
+            background-color: #f0f0f0; /* 背景色で視認性UP */
+            padding: 5px;
+        }
+    </style>
+</head>
+<body>
+    <h1>リアルタイム伏字アプリ</h1>
+    <textarea id="inputText" rows="5" cols="50" placeholder="ここに文字を入力"></textarea>
+    <p>変換結果:</p>
+    <div id="outputText" style="font-size: 20px;"></div>
+    <div id="originalText"></div>
+    <button id="shareButton">Xに埋め込む</button>
+    <script src="script.js"></script>
+</body>
+</html>
