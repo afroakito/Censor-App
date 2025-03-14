@@ -7,18 +7,18 @@ const shareButton = document.getElementById('shareButton');
 let originalText = '';
 
 // 入力時にリアルタイムで伏字に変換
-inputText.addEventListener('input', function() {
-    const currentValue = inputText.value;
-    originalText = currentValue; // 元の文字列を更新
+inputText.addEventListener('input', function(event) {
+    // 現在の入力値を取得
+    originalText = event.target.value; // 元の文字列を更新
 
     // 入力欄: 最後の1文字以外を●に
-    if (currentValue.length > 1) {
-        const censoredInput = '●'.repeat(currentValue.length - 1) + currentValue.slice(-1);
+    if (originalText.length > 1) {
+        const censoredInput = '●'.repeat(originalText.length - 1) + originalText.slice(-1);
         inputText.value = censoredInput;
     }
 
     // 変換結果: 全文字を●に
-    outputText.textContent = '●'.repeat(currentValue.length);
+    outputText.textContent = '●'.repeat(originalText.length);
 });
 
 // 「Xに埋め込む」ボタン: 元の文字列をコピー＆Xに遷移
