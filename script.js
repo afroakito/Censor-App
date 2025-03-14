@@ -13,7 +13,6 @@ originalTextDisplay.textContent = '（入力なし）';
 // 入力時にリアルタイムで伏字に変換
 inputText.addEventListener('input', function() {
     const currentValue = inputText.value;
-    originalText = currentValue; // 元の文字列を更新
 
     // 入力欄: 最後の1文字以外を●に
     if (currentValue.length > 1) {
@@ -23,8 +22,20 @@ inputText.addEventListener('input', function() {
 
     // 変換結果: 全文字を●に
     outputText.textContent = '●'.repeat(currentValue.length);
+});
 
-    // 元のテキストを表示
+// 確定時（Enterや変換確定）に元の文字列を更新
+inputText.addEventListener('keyup', function(event) {
+    // Enterキーまたは確定後の処理
+    if (event.key === 'Enter' || event.isComposing === false) {
+        originalText = inputText.value.replace(/●/g, '') + (event.key === 'Enter' ? '' : event.key);
+        originalTextDisplay.textContent = originalText || '（入力なし）';
+    }
+});
+
+// IME入力中の確定を補足
+inputText.addEventListener('compositionend', function() {
+    originalText = inputText.value.replace(/●/g, ''); // ●を除去して元の文字を取得
     originalTextDisplay.textContent = originalText || '（入力なし）';
 });
 
