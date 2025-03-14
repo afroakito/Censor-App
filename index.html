@@ -28,12 +28,11 @@
             if (isMobile) {
                 setTimeout(() => {
                     inputText.focus();
-                    // 仮想入力でキーボードを強制表示
                     inputText.value = ' ';
                     inputText.dispatchEvent(new Event('input', { bubbles: true }));
                     inputText.value = '';
                     inputText.click();
-                }, 200); // 200ms遅延で安定性向上
+                }, 200);
             }
         });
     </script>
