@@ -23,12 +23,15 @@
         // ページロード時にtextareaにフォーカス＆キーボード表示
         window.onload = function() {
             const inputText = document.getElementById('inputText');
-            inputText.focus();
-            // キーボード表示を促すためにinputイベントをディスパッチ
-            const event = new Event('input', { bubbles: true });
-            inputText.dispatchEvent(event);
-            // さらにクリックイベントを追加
-            inputText.click();
+            // 100ms遅延してフォーカスとキーボード表示を試みる
+            setTimeout(() => {
+                inputText.focus();
+                // 仮想入力でキーボードを強制表示
+                inputText.value = ' '; // 一時的に空白を入力
+                inputText.dispatchEvent(new Event('input', { bubbles: true }));
+                inputText.value = ''; // 元に戻す
+                inputText.click(); // 追加トリガー
+            }, 100);
         };
     </script>
 </body>
