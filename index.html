@@ -5,8 +5,8 @@
     <title>リアルタイム伏字アプリ</title>
     <style>
         #originalText {
-            font-size: 12px; /* 小さく表示 */
-            color: #666; /* 見やすいグレー（必要なら変更可能） */
+            font-size: 12px;
+            color: #666;
             margin-bottom: 5px;
         }
     </style>
@@ -16,8 +16,26 @@
     <textarea id="inputText" rows="5" cols="50" placeholder="ここに文字を入力"></textarea>
     <p>変換結果:</p>
     <div id="outputText" style="font-size: 20px;"></div>
-    <div id="originalText"></div> <!-- 元のテキスト表示用 -->
+    <div id="originalText"></div>
     <button id="shareButton">Xに埋め込む</button>
     <script src="script.js"></script>
+    <script>
+        // ページロード時にスマホでtextareaにフォーカス＆キーボード表示
+        document.addEventListener('DOMContentLoaded', function() {
+            const inputText = document.getElementById('inputText');
+            const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+
+            if (isMobile) {
+                setTimeout(() => {
+                    inputText.focus();
+                    // 仮想入力でキーボードを強制表示
+                    inputText.value = ' ';
+                    inputText.dispatchEvent(new Event('input', { bubbles: true }));
+                    inputText.value = '';
+                    inputText.click();
+                }, 200); // 200ms遅延で安定性向上
+            }
+        });
+    </script>
 </body>
 </html>
